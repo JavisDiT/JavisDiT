@@ -1,12 +1,12 @@
 ## <div align="center"> JavisDiT: Joint Audio-Video Diffusion Transformer with Hierarchical Spatio-Temporal Prior Synchronization </div>
 
-<center>
+<div align="center">
 
 [[`HomePage`](https://javisdit.github.io/)] 
 [[`ArXiv Paper`](https://arxiv.org/pdf/2503.23377)] 
 [[`HF Paper`](https://huggingface.co/papers/2503.23377)]
 
-</center>
+</div>
 
 
 ## Abstract
