@@ -9,6 +9,13 @@
 </div>
 
 
+<div align="center">
+<video  controls="" autoplay="" muted="" loop="" width="99%" style="display: block; margin:0 auto">
+                        <source src="./assets/video/teaser-video-JavisDit2.mp4" type="video/mp4">
+                        Your browser does not support the video tag. 
+</video>
+</div>
+
 ## Abstract
 
 We introduce **JavisDiT**, a novel Joint Audio-Video Diffusion Transformer designed for synchronized audio-video generation (JAVG) from open-ended user prompts. To ensure optimal synchronization, we introduce a fine-grained spatio-temporal alignment mechanism through a Hierarchical Spatial-Temporal Synchronized Prior (HiST-Sypo) Estimator. This module extracts both global and fine-grained spatio-temporal priors, guiding the synchronization between the visual and auditory components. Furthermore, we propose a new benchmark, **JavisBench**, consisting of 10,140 high-quality text-captioned sounding videos spanning diverse scenes and complex real-world scenarios. Further, we specifically devise a robust metric termed **JavisScore** for evaluating the synchronization between generated audio-video pairs in real-world complex content, with 3,000 human-annotated samples to quantitatively evaluate synchronization metrics themselves. We hope to set a new standard for the JAVG community.
