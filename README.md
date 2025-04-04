@@ -9,12 +9,10 @@
 </div>
 
 
-<div align="center">
-<video  controls="" autoplay="" muted="" loop="" width="99%" style="display: block; margin:0 auto">
-                        <source src="./assets/video/teaser-video-JavisDit2.mp4" type="video/mp4">
-                        Your browser does not support the video tag. 
-</video>
-</div>
+
+https://github.com/user-attachments/assets/de5f0bcc-fb5d-4410-a795-2dd3ae3ac788
+
+
 
 ## Abstract
 
