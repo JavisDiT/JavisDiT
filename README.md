@@ -5,6 +5,7 @@
 [[`HomePage`](https://javisdit.github.io/)] 
 [[`ArXiv Paper`](https://arxiv.org/pdf/2503.23377)] 
 [[`HF Paper`](https://huggingface.co/papers/2503.23377)]
+[[`Models`](https://huggingface.co/collections/JavisDiT/javisdit-v01-67f2ac8a0def71591f7e2974)]
 
 </div>
 
@@ -13,23 +14,183 @@ We introduce **JavisDiT**, a novel & SoTA Joint Audio-Video Diffusion Transforme
 
 https://github.com/user-attachments/assets/de5f0bcc-fb5d-4410-a795-2dd3ae3ac788
 
+## 📰 News
+
+- **[2025.04.07]** 🔥 We released the inference code and a preview model of **JavisDiT-v0.1** at [HuggingFace](https://huggingface.co/JavisDiT), which includes **JavisDiT-v0.1-audio**, **JavisDiT-v0.1-prior**, and **JavisDiT-v0.1-jav** (with a [low-resolution version](https://huggingface.co/JavisDiT/JavisDiT-v0.1-jav-240p4s) and a [full-resolution version](https://huggingface.co/JavisDiT/JavisDiT-v0.1-jav)).
+- **[2025.04.03]** We release the repository of [JavisDiT](https://arxiv.org/pdf/2503.23377). Code, model, and data are coming soon.
+
+### 👉 TODO 
+- [ ] Release the data preparation and training scripts for JavisDiT.
+- [ ] Release the data and evaluation code for JavisBench & JavisScore.
+- [ ] Deriving a more efficient and powerful JAVG model.
+
+## Brief Introduction
+
 **JavisDiT** addresses the key bottleneck of JAVG with Hierarchical Spatio-Temporal Prior Synchronization.
 
-<p align="center">
+<!-- <p align="center">
   <img src="./assets/image/JavisDiT-intro-resized.png" width="550"/>
-</p>
-
-
-## Abstract
-
-We introduce **JavisDiT**, a novel Joint Audio-Video Diffusion Transformer designed for synchronized audio-video generation (JAVG) from open-ended user prompts. To ensure optimal synchronization, we introduce a fine-grained spatio-temporal alignment mechanism through a Hierarchical Spatial-Temporal Synchronized Prior (HiST-Sypo) Estimator. This module extracts both global and fine-grained spatio-temporal priors, guiding the synchronization between the visual and auditory components. Furthermore, we propose a new benchmark, **JavisBench**, consisting of 10,140 high-quality text-captioned sounding videos spanning diverse scenes and complex real-world scenarios. Further, we specifically devise a robust metric termed **JavisScore** for evaluating the synchronization between generated audio-video pairs in real-world complex content, with 3,000 human-annotated samples to quantitatively evaluate synchronization metrics themselves. We hope to set a new standard for the JAVG community.
+</p> -->
 
 ![framework](./assets/image/JavisDiT-framework-resized.png)
 
-## Code & Weight & Data
+- We introduce **JavisDiT**, a novel Joint Audio-Video Diffusion Transformer designed for synchronized audio-video generation (JAVG) from open-ended user prompts. 
+- We propose **JavisBench**, a new benchmark consisting of 10,140 high-quality text-captioned sounding videos spanning diverse scenes and complex real-world scenarios. 
+- We devise **JavisScore**, a robust metric for evaluating the synchronization between generated audio-video pairs in real-world complex content.
+- We curate **JavisEval**, a dataset with 3,000 human-annotated samples to quantitatively evaluate the accuracy of synchronization estimate metrics. 
 
-- [ ] Please stay tuned.
+We hope to set a new standard for the JAVG community. For more technical details, kindly refer to the original [paper](https://arxiv.org/pdf/2503.23377.pdf). 
 
+
+## Installation
+
+### Install from Source
+
+For CUDA 12.1, you can install the dependencies with the following commands.
+
+```bash
+# create a virtual env and activate (conda as an example)
+conda create -n javisdit python=3.10
+conda activate javisdit
+
+# download the repo
+git clone https://github.com/JavisDiT/JavisDiT
+cd JavisDiT
+
+# install torch, torchvision and xformers
+pip install -r requirements/requirements-cu121.txt
+
+# the default installation is for inference only
+pip install -v .
+# for development mode, `pip install -v -e .`
+# to skip dependencies, `pip install -v -e . --no-deps`
+
+# replace
+cp assets/src/pytorchvideo_augmentations.py /path/to/python3.10/site-packages/pytorchvideo/transforms/augmentations.py
+```
+
+(Optional, recommended for fast speed, especially for training) To enable `layernorm_kernel` and `flash_attn`, you need to install `apex` and `flash-attn` with the following commands.
+
+```bash
+# install flash attention
+# set enable_flash_attn=False in config to disable flash attention
+pip install packaging ninja
+pip install flash-attn --no-build-isolation
+
+# install apex
+# set enable_layernorm_kernel=False in config to disable apex
+pip install -v --disable-pip-version-check --no-cache-dir --no-build-isolation --config-settings "--build-option=--cpp_ext" --config-settings "--build-option=--cuda_ext" git+https://github.com/NVIDIA/apex.git
+```
+
+
+### Pre-trained Weights
+
+
+| Model     | Resolution | Model Size | Data | #iterations | Batch Size |
+| --------- | ---------- | ---------- | ---- | ----------- | ---------- |
+| [JavisDiT-v0.1-prior](https://huggingface.co/JavisDiT/JavisDiT-v0.1-prior)  | 144P-1080P | 29M  | 611K | 36k | Dynamic |
+| [JavisDiT-v0.1](https://huggingface.co/JavisDiT/JavisDiT-v0.1-jav)        | 144P-1080P | 3.4B | 611K | 1k  | Dynamic |
+| [JavisDiT-v0.1-240p4s](https://huggingface.co/JavisDiT/JavisDiT-v0.1-jav-240p4s) | 240P       | 3.4B | 611K | 16k | 4       |
+
+
+:warning: **LIMITATION**: [JavisDiT-v0.1](https://huggingface.co/collections/JavisDiT/javisdit-v01-67f2ac8a0def71591f7e2974) is a preview version trained on a limited budget. We are working on improving the quality by optimizing both model architecture and training data.
+
+Weight will be automatically downloaded when you run the inference script. Or you can also download these weights to local directory and change the path configuration in `configs/.../inference/sample.py`.
+
+```bash
+pip install "huggingface_hub[cli]"
+huggingface-cli download JavisDiT/JavisDiT-v0.1-jav --local-dir ./checkpoints/JavisDiT-v0.1-jav
+```
+
+> For users from mainland China, try `export HF_ENDPOINT=https://hf-mirror.com` to successfully download the weights.
+
+
+## Inference
+
+### Weight Prepare
+
+Download [imagebind_huge.pth](https://dl.fbaipublicfiles.com/imagebind/imagebind_huge.pth) and put it into `./checkpoints/imagebind_huge.pth`.
+
+### Command Line Inference
+
+The basic command line inference is as follows:
+
+```bash
+python scripts/inference.py \
+  configs/javisdit-v0-1/inference/sample.py \
+  --num-frames 2s --resolution 720p --aspect-ratio 9:16 \
+  --prompt "a beautiful waterfall" --verbose 2
+```
+
+`--verbose 2` will display the progress of a single diffusion.
+If your installation do not contain `apex` and `flash-attn`, you need to disable them in the config file, or via the folowing command.
+
+```bash
+python scripts/inference.py \
+  configs/javisdit-v0-1/inference/sample_240p4s.py \
+  --num-frames 2s --resolution 720p --aspect-ratio 9:16 \
+  --layernorm-kernel False --flash-attn False \
+  --prompt "a beautiful waterfall" --verbose 2
+```
+
+Try this configuration to generate low-resolution sounding-videos:
+
+```bash
+python scripts/inference.py \
+  configs/javisdit-v0-1/inference/sample_240p4s.py \
+  --num-frames 4s --resolution 240p --aspect-ratio 9:16 \
+  --prompt "a beautiful waterfall" --verbose 2
+```
+
+If you want to generate on a given prompt list (organized with a `.txt` for `.csv` file):
+
+```bash
+python scripts/inference.py \
+  configs/javisdit-v0-1/inference/sample_240p4s.py \
+  --num-frames 4s --resolution 240p --aspect-ratio 9:16 \
+  --prompt-path data/meta/JavisBench.csv --verbose 1
+```
+
+`--verbose 1` will display the progress of the whole generation list.
+
+### Multi-Device Inference
+
+To enable multi-device inference, you need to use `torchrun` to run the inference script. The following command will run the inference with 2 GPUs.
+
+```bash
+CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node 2 scripts/inference.py \
+  configs/javisdit-v0-1/inference/sample_240p4s.py \
+  --num-frames 4s --resolution 240p --aspect-ratio 9:16 \
+  --prompt-path data/meta/JavisBench.csv --verbose 1
+```
+
+### X-Conditional Generation
+
+- [ ] Coming soon.
+
+## Training 
+
+- [ ] Coming soon.
+
+## Evaluation
+
+- [ ] Coming soon.
+
+
+## Acknowledgement
+
+Below we show our appreciation for the exceptional work and generous contribution to open source. Special thanks go to the authors of [Open-Sora](https://github.com/hpcaitech/Open-Sora) and [TAVGBench](https://github.com/OpenNLPLab/TAVGBench) for their valuable codebase and dataset. For other works and datasets, please refer to our paper.
+
+- [Open-Sora](https://github.com/hpcaitech/Open-Sora): A wonderful project for democratizing efficient text-to-video production for all, with the model, tools and all details accessible.
+- [TAVGBench](https://github.com/OpenNLPLab/TAVGBench): A large-scale dataset encompasses an impressive 1.7 million video-audio entries, each meticulously annotated with corresponding text.
+- [ColossalAI](https://github.com/hpcaitech/ColossalAI): A powerful large model parallel acceleration and optimization system.
+- [DiT](https://github.com/facebookresearch/DiT): Scalable Diffusion Models with Transformers.
+- [OpenDiT](https://github.com/NUS-HPC-AI-Lab/OpenDiT): An acceleration for DiT training. We adopt valuable acceleration strategies for training progress from OpenDiT.
+- [PixArt](https://github.com/PixArt-alpha/PixArt-alpha): An open-source DiT-based text-to-image model.
+- [Latte](https://github.com/Vchitect/Latte): An attempt to efficiently train DiT for video.
+- [StabilityAI VAE](https://huggingface.co/stabilityai/sd-vae-ft-mse-original): A powerful image VAE model.
+- [CLIP](https://github.com/openai/CLIP): A powerful text-image embedding model.
+- [T5](https://github.com/google-research/text-to-text-transfer-transformer): A powerful text encoder.
 
 ## Citation
 

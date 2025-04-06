@@ -165,25 +165,21 @@ cython_debug/
 *.DS_Store
 
 # misc files
-data/
 data
 dataset/
 datasets
-runs/
-checkpoints/
+!javisdit/datasets
+!tools/datasets
+runs
 checkpoints
-outputs/
+weights
 outputs
-ablation/
 ablation
 !configs/**/ablation/
 !scripts/**/ablation/
-exps/
 exps
-samples/
 samples
-logs/
-pretrained_models/
+logs
 pretrained_models
 evaluation_results/
 cache/
@@ -191,19 +187,19 @@ cache/
 debug/
 */debug.py
 third_party/
-deprecated/
+deprecated
 nohup.*
-tmp/
+tmp
 *.zip
 *.tar
 *.tar.gz
+run.sh
+interface.py
 
 # Secret files
 hostfile
-run.sh
 gradio_cached_examples/
 wandb/
-interface.py
 
 # vae weights
 eval/vae/flolpips/weights/
