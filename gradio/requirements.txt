@@ -1,0 +1,3 @@
+xformers
+transformers
+git+https://github.com/JavisDiT/JavisDiT.git

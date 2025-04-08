@@ -1,4 +1,4 @@
-## <div align="center"> JavisDiT: Joint Audio-Video Diffusion Transformer with Hierarchical Spatio-Temporal Prior Synchronization </div>
+## <div align="center"> JavisDiT: Joint Audio-Video Diffusion Transformer with Hierarchical Spatio-Temporal Prior Synchronization</div>
 
 <div align="center">
 
@@ -6,6 +6,7 @@
 [[`ArXiv Paper`](https://arxiv.org/pdf/2503.23377)] 
 [[`HF Paper`](https://huggingface.co/papers/2503.23377)]
 [[`Models`](https://huggingface.co/collections/JavisDiT/javisdit-v01-67f2ac8a0def71591f7e2974)]
+[[`Gradio Demo`](https://447c629bc8648ce599.gradio.live)]
 
 </div>
 
@@ -16,6 +17,7 @@ https://github.com/user-attachments/assets/de5f0bcc-fb5d-4410-a795-2dd3ae3ac788
 
 ## 📰 News
 
+- **[2025.04.08]** 🤗 We released the [Gradio Demo](https://447c629bc8648ce599.gradio.live) for a quick experience. Have fun with it!
 - **[2025.04.07]** 🔥 We released the inference code and a preview model of **JavisDiT-v0.1** at [HuggingFace](https://huggingface.co/JavisDiT), which includes **JavisDiT-v0.1-audio**, **JavisDiT-v0.1-prior**, and **JavisDiT-v0.1-jav** (with a [low-resolution version](https://huggingface.co/JavisDiT/JavisDiT-v0.1-jav-240p4s) and a [full-resolution version](https://huggingface.co/JavisDiT/JavisDiT-v0.1-jav)).
 - **[2025.04.03]** We release the repository of [JavisDiT](https://arxiv.org/pdf/2503.23377). Code, model, and data are coming soon.
 

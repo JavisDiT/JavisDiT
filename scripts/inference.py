@@ -167,7 +167,6 @@ def main():
     for i in progress_wrap(range(0, len(prompts), batch_size)):
         # == prepare batch prompts ==
         batch_prompts = prompts[i : i + batch_size]
-        # batch_audio_prompts = audio_prompts[i : i + batch_size]
         ms = mask_strategy[i : i + batch_size]
         refs = reference_path[i : i + batch_size]
 
@@ -279,7 +278,6 @@ def main():
             for loop_i in range(loop):
                 # == get prompt for loop i ==
                 batch_prompts_loop = extract_prompts_loop(batch_prompts, loop_i)
-                # batch_audio_prompts_loop = extract_prompts_loop(batch_audio_prompts, loop_i)
 
                 # == add condition frames for loop ==
                 if loop_i > 0:
