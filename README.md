@@ -206,3 +206,8 @@ If you find JavisDiT is useful and use it in your project, please kindly cite:
       year={2025}, 
 }
 ```
+---
+# ⭐️ Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=JavisDiT/JavisDiT&type=Date)](https://star-history.com/#JavisDiT/JavisDiT&Date)
+
