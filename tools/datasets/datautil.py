@@ -642,10 +642,9 @@ def set_dummy_video(input_path):
     num_frames = int(duration * fps)
     height, width, aspect_ratio, resolution = 720, 1280, 0.5625, 921600
     text = 'placeholder'
-    speech = -1
     return path, _id, relpath, num_frames, \
-            height, width, aspect_ratio, fps, resolution,\
-            speech, text
+           height, width, aspect_ratio, fps, resolution,\
+           text
 
 
 def video_crop_resize(input_path, target_wh):
@@ -797,14 +796,15 @@ def main(args):
         data = data[data["audio_fps"] == args.audio_sr]
     if args.dummy_video:
         info = apply(data["audio_path"], set_dummy_video)
-        path, _id, relpath, num_frames, height, width, aspect_ratio, \
-            fps, resolution, speech, text = zip(*info)
-        data = {'path': path, 'id': _id, 'relpath': relpath, 'num_frames': num_frames,
-                'height': height, 'width': width, 'aspect_ratio': aspect_ratio,
-                'fps': fps, 'resolution': resolution, 
-                'audio_path': data['audio_path'], 'audio_fps': data['audio_fps'],
-                'speech': speech, 'text': text, 'audio_text': data['audio_text']}
-        data = pd.DataFrame(data)
+        path, _id, relpath, num_frames, height, width, aspect_ratio, fps, resolution, \
+            text = zip(*info)
+        data = pd.DataFrame({
+            'path': path, 'id': _id, 'relpath': relpath, 'num_frames': num_frames,
+            'height': height, 'width': width, 'aspect_ratio': aspect_ratio,
+            'fps': fps, 'resolution': resolution, 
+            'audio_path': data['audio_path'], 'audio_fps': data['audio_fps'],
+            'text': text, 'audio_text': data.get('audio_text', [''] * len(data)),
+        })
 
     # filtering
     if args.remove_url:

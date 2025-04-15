@@ -227,7 +227,6 @@ class VideoAudioTextDataset(VideoTextDataset):
         neg_aug=None,
         neg_aug_kwargs={},
         load_data=None,
-        extract_text_features=False,
         require_onset=False,
         **kwargs
     ):
@@ -239,19 +238,12 @@ class VideoAudioTextDataset(VideoTextDataset):
         self.require_onset = require_onset
 
         self.direct_load_video_clip = direct_load_video_clip
-        self.extract_text_features = extract_text_features
         self.buffer_dir = load_data
 
     def getitem(self, index):
         sample = self.data.iloc[index]
         path = sample["path"]
         file_type = self.get_type(path)
-
-        if self.extract_text_features:
-            return {
-                "index": index,
-                "text": sample["text"]
-            }
 
         audio_path = sample.get('audio_path', None)
         aframes, ainfo = read_audio(audio_path, backend='auto')
@@ -402,7 +394,6 @@ class VariableVideoAudioTextDataset(VariableVideoTextDataset):
         audio_transform_name=None,
         audio_cfg=None,
         load_data=None,
-        extract_text_features=False,
         dummy_text_feature=False,
         audio_only=False,
         require_onset=False,
@@ -414,12 +405,11 @@ class VariableVideoAudioTextDataset(VariableVideoTextDataset):
                          transform_name=transform_name, dummy_text_feature=dummy_text_feature)
 
         self.audio_transform = get_transforms_audio(audio_transform_name, audio_cfg)
-        self.extract_text_features = extract_text_features
 
         self.buffer_dir = load_data
         self.audio_only = audio_only
         self.require_onset = require_onset
-        if self.audio_only:
+        if self.audio_only and self.data.get('audio_text') is not None:
             self.data['text'] = self.data['audio_text']
             del self.data['audio_text']
 
@@ -436,13 +426,6 @@ class VariableVideoAudioTextDataset(VariableVideoTextDataset):
         path = sample["path"]
         file_type = self.get_type(path)
         ar = height / width
-
-        if self.extract_text_features:
-            return {
-                "index": index,
-                "text": sample["text"],
-                "audio_text": sample.get("audio_text", "")
-            }
 
         audio_path = sample.get('audio_path', None)
         aframes, ainfo = read_audio(audio_path, backend='auto')

@@ -6,7 +6,7 @@
 [[`ArXiv Paper`](https://arxiv.org/pdf/2503.23377)] 
 [[`HF Paper`](https://huggingface.co/papers/2503.23377)]
 [[`Models`](https://huggingface.co/collections/JavisDiT/javisdit-v01-67f2ac8a0def71591f7e2974)]
-[[`Gradio Demo`](https://447c629bc8648ce599.gradio.live)]
+<!-- [[`Gradio Demo`](https://447c629bc8648ce599.gradio.live)] -->
 
 </div>
 
@@ -17,12 +17,12 @@ https://github.com/user-attachments/assets/de5f0bcc-fb5d-4410-a795-2dd3ae3ac788
 
 ## 📰 News
 
-- **[2025.04.08]** 🤗 We released the [Gradio Demo](https://447c629bc8648ce599.gradio.live) for a quick experience. Have fun with it!
+- **[2025.04.15]** 🔥 We released the data preparation and model training instructions. You can train JavisDiT with your own dataset!
+<!-- - **[2025.04.08]** 🤗 We released the [Gradio Demo](https://447c629bc8648ce599.gradio.live) for a quick experience. Have fun with it! -->
 - **[2025.04.07]** 🔥 We released the inference code and a preview model of **JavisDiT-v0.1** at [HuggingFace](https://huggingface.co/JavisDiT), which includes **JavisDiT-v0.1-audio**, **JavisDiT-v0.1-prior**, and **JavisDiT-v0.1-jav** (with a [low-resolution version](https://huggingface.co/JavisDiT/JavisDiT-v0.1-jav-240p4s) and a [full-resolution version](https://huggingface.co/JavisDiT/JavisDiT-v0.1-jav)).
 - **[2025.04.03]** We release the repository of [JavisDiT](https://arxiv.org/pdf/2503.23377). Code, model, and data are coming soon.
 
 ### 👉 TODO 
-- [ ] Release the data preparation and training scripts for JavisDiT.
 - [ ] Release the data and evaluation code for JavisBench & JavisScore.
 - [ ] Deriving a more efficient and powerful JAVG model.
 
@@ -172,7 +172,68 @@ CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node 2 scripts/inference.py \
 
 ## Training 
 
-- [ ] Coming soon.
+### Data Preparation
+
+In this project, we use a `.csv` file to manage all the training entries and their attributes for efficient training:
+
+| path | id | relpath | num_frames | height | width | aspect_ratio | fps | resolution | audio_path | audio_fps | text|
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | ---|
+| /path/to/xxx.mp4 | xxx | xxx.mp4 | 240 | 480 | 640 | 0.75 | 24 | 307200 | /path/to/xxx.wav | 16000 | yyy |
+
+The content of columns may vary in different training stages. The detailed instructions for each training stage can be found in [here](assets/docs/data.md).
+
+### Stage1 - JavisDiT-audio
+
+In this stage, we perform audio pretraining to intialize the text-to-audio generation capability:
+
+```bash
+ln -s /path/to/local/OpenSora-STDiT-v3 ./checkpoints/OpenSora-STDiT-v3
+
+export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
+torchrun --standalone --nproc_per_node 8 \
+    scripts/train.py \
+    configs/javisdit-v0-1/train/stage1_audio.py \
+    --data-path data/meta/audio/train_audio.csv
+```
+
+The resulting checkpoints will be saved at `runs/0aa-VASTDiT3-XL-2/epoch0bb-global_stepccc/model`.
+
+### Stage2 - JavisDiT-prior
+
+In this stage, we estimate the spatio-temporal synchronization prior under a contrastive learning framewrok:
+
+```bash
+export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
+torchrun --standalone --nproc_per_node 8 \
+    scripts/train_prior.py \
+    configs/javisdit-v0-1/train/stage2_prior.py \
+    --data-path data/meta/prior/train_prior.csv
+```
+
+The resulting checkpoints will be saved at `runs/0xx-STIBPrior/epoch0yy-global_stepzzz/model`.
+
+### Stage3 - JavisDiT-jav
+
+In this stage, we freeze the previously learned modules, and train the audio-video synchronization modules:
+
+```bash
+# link to previous stages
+mv runs/0aa-VASTDiT3-XL-2/epoch0bb-global_stepccc checkpoints/JavisDiT-v0.1-audio
+mv runs/0xx-STIBPrior/epoch0yy-global_stepzzz checkpoints/JavisDiT-v0.1-prior
+
+# start training
+export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
+torchrun --standalone --nproc_per_node 8 \
+    scripts/train.py \
+    configs/javisdit-v0-1/train/stage3_jav.py \
+    --data-path data/meta/TAVGBench/train_jav.csv
+```
+
+The resulting checkpoints will be saved at `runs/0aa-VASTDiT3-XL-2/epoch0bb-global_stepccc/model`.
+
+```bash
+mv runs/0aa-VASTDiT3-XL-2/epoch0bb-global_stepccc checkpoints/JavisDiT-v0.1-jav
+```
 
 ## Evaluation
 

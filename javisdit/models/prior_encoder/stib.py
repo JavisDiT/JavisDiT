@@ -27,7 +27,6 @@ class STIBPriorExtractorConfig(STPriorExtractorConfig):
         super().__init__(**kwargs)
 
 
-@MODELS.register_module("stib")
 class STIBPriorExtractor(STPriorExtractor):
     """
     Spatio-Temporal ImageBind Extractor
