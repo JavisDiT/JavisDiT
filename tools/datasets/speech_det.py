@@ -7,8 +7,8 @@ import math
 
 from funasr import AutoModel
 
-model_path = '/storage/kailiu/ssd/projects/VAffusion/third_party/FunAudioLLM/SenseVoiceSmall'
-# model_path = '/storage/kailiu/ssd/projects/VAffusion/third_party/funasr/fsmn-vad'
+model_path = './third_party/FunAudioLLM/SenseVoiceSmall'
+# model_path = './third_party/funasr/fsmn-vad'
 
 
 def eval_res(res_list):

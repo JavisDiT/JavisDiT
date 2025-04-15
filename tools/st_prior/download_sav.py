@@ -28,7 +28,7 @@ def download_files_multithreaded(urls, output_filenames, max_threads=4):
 
 
 def download_and_extract():
-    meta_file = '/storage/kailiu/projects/VAffusion/data_pipeline/st_prior/data/SA-V/SA-V.csv'
+    meta_file = 'data/st_prior/data/SA-V/SA-V.csv'
     data = pd.read_csv(meta_file, delimiter='	')
     urls, output_filenames = [], []
     for _, row in tqdm(data.iterrows()):
