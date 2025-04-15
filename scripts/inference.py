@@ -1,4 +1,5 @@
 import os
+import math
 import time
 from pprint import pformat
 import warnings
@@ -59,7 +60,8 @@ def main():
     if is_distributed():
         colossalai.launch_from_torch({})
         coordinator = DistCoordinator()
-        enable_sequence_parallelism = coordinator.world_size > 1
+        # enable_sequence_parallelism = coordinator.world_size > 1
+        enable_sequence_parallelism = False
         if enable_sequence_parallelism:
             set_sequence_parallel_group(dist.group.WORLD)
     else:
@@ -162,6 +164,15 @@ def main():
     os.makedirs(save_dir, exist_ok=True)
     sample_name = cfg.get("sample_name", None)
     prompt_as_path = cfg.get("prompt_as_path", False)
+
+    # == prepare distributed inference ==
+    if is_distributed():
+        local_rank = dist.get_rank()
+        num_per_rank = math.ceil(len(prompts) / coordinator.world_size)
+        start_idx = local_rank * num_per_rank
+        prompts = prompts[start_idx:start_idx+num_per_rank]
+        reference_path = reference_path[start_idx:start_idx+num_per_rank]
+        mask_strategy = mask_strategy[start_idx:start_idx+num_per_rank]
 
     # == Iter over all samples ==
     for i in progress_wrap(range(0, len(prompts), batch_size)):
@@ -313,7 +324,7 @@ def main():
                 audio_clips.append(audio_samples)
 
             # == save samples ==
-            if is_main_process():
+            if is_main_process() or True:
                 for idx, batch_prompt in enumerate(batch_prompts):
                     if verbose >= 2:
                         logger.info("Prompt: %s", batch_prompt)
