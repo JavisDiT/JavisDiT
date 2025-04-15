@@ -13,12 +13,12 @@
 
 We introduce **JavisDiT**, a novel & SoTA Joint Audio-Video Diffusion Transformer designed for synchronized audio-video generation (JAVG) from open-ended user prompts. 
 
-<!-- https://github.com/user-attachments/assets/de5f0bcc-fb5d-4410-a795-2dd3ae3ac788 -->
+https://github.com/user-attachments/assets/de5f0bcc-fb5d-4410-a795-2dd3ae3ac788
 
-<video controls width="100%">
+<!-- <video controls width="100%">
   <source src="assets/video/teaser-video-JavisDit3.mp4" type="video/mp4">
   Your browser does not support the video tag.
-</video>
+</video> -->
 
 ## 📰 News
 
