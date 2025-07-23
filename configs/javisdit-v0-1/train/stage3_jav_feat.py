@@ -1,33 +1,11 @@
 # Dataset settings
-dataset = dict(
-    type="VariableVideoAudioTextDataset",
-    direct_load_video_clip=True,
-    transform_name="resize_crop",
-    audio_transform_name="mel_spec_audioldm2",
-)
+dataset = dict(type="BatchFeatureDataset")
+load_va_features = True
 load_text_features = False
-
-# webvid
-bucket_config = {  # 20s/it, randomly assigning raw videos to pre-defined and proper buckets
-    # image size : {num frame : {accept_probs, batch size}}
-    "144p": {51: (1.0, 16), 102: ((1.0, 0.5), 12), 204: ((1.0, 0.5), 6), 408: (1.0, 3)},
-    # ---
-    "256": {51: (0.5, 10), 102: ((0.5, 0.5), 4), 204: ((0.5, 0.5), 2), 408: (1.0, 1)},
-    "240p": {51: (0.5, 10), 102: ((0.5, 0.5), 4), 204: ((0.5, 0.5), 2), 408: (1.0, 1)},
-    # ---
-    "360p": {51: (0.3, 4), 102: ((0.3, 0.5), 2), 204: ((0.3, 0.5), 1)},
-    "512": {51: (0.2, 4), 102: ((0.2, 0.5), 2), 204: ((0.2, 0.4), 1)},
-    # ---
-    "480p": {51: (0.2, 2), 102: ((0.2, 0.5), 1)},
-    # ---
-    "720p": {51: (0.03, 1)},
-    "1024": {51: (0.03, 1)},
-}
-grad_checkpoint = True
 
 # Acceleration settings
 num_workers = 8
-num_bucket_build_workers = 16
+grad_checkpoint = True
 dtype = "bf16"
 plugin = "zero2"
 
@@ -56,26 +34,26 @@ model = dict(
     st_prior_channel=st_prior_channel,
     audio_patch_size=(4, 1)
 )
-vae = dict(
-    type="OpenSoraVAE_V1_2",
-    from_pretrained="hpcai-tech/OpenSora-VAE-v1.2",
-    micro_frame_size=17,
-    micro_batch_size=4,
-)
-audio_vae = dict(
-    type="AudioLDM2",
-    from_pretrained="cvssp/audioldm2",
-)
+# vae = dict(
+#     type="OpenSoraVAE_V1_2",
+#     from_pretrained="hpcai-tech/OpenSora-VAE-v1.2",
+#     micro_frame_size=17,
+#     micro_batch_size=4,
+# )
+# audio_vae = dict(
+#     type="AudioLDM2",
+#     from_pretrained="cvssp/audioldm2",
+# )
 text_encoder = dict(
     type="t5",
-    from_pretrained="./checkpoints/t5-v1_1-xxl",
+    from_pretrained="DeepFloyd/t5-v1_1-xxl",
     model_max_length=300,
     # shardformer=True,
 )
 prior_encoder = dict(
     type="STIBPrior",
     imagebind_ckpt_path="./checkpoints",
-    from_pretrained="./checkpoints/JavisDiT-v0.1-prior",
+    from_pretrained="JavisDiT/JavisDiT-v0.1-prior",
     spatial_token_num=spatial_prior_len,
     temporal_token_num=temporal_prior_len,
     out_dim=st_prior_channel,

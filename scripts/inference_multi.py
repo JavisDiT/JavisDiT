@@ -60,7 +60,8 @@ def main():
     if is_distributed():
         colossalai.launch_from_torch({})
         coordinator = DistCoordinator()
-        enable_sequence_parallelism = coordinator.world_size > 1
+        # enable_sequence_parallelism = coordinator.world_size > 1
+        enable_sequence_parallelism = False
         if enable_sequence_parallelism:
             set_sequence_parallel_group(dist.group.WORLD)
     else:
@@ -146,6 +147,15 @@ def main():
         mask_strategy = [mask_strategy] * len(prompts)
     assert len(reference_path) == len(prompts), "Length of reference must be the same as prompts"
     assert len(mask_strategy) == len(prompts), "Length of mask_strategy must be the same as prompts"
+    
+    # == prepare distributed inference ==
+    if is_distributed():
+        local_rank = dist.get_rank()
+        num_per_rank = math.ceil(len(prompts) / coordinator.world_size)
+        start_idx = local_rank * num_per_rank
+        prompts = prompts[start_idx:start_idx+num_per_rank]
+        reference_path = reference_path[start_idx:start_idx+num_per_rank]
+        mask_strategy = mask_strategy[start_idx:start_idx+num_per_rank]
 
     # == prepare arguments ==
     fps = cfg.fps
@@ -200,8 +210,8 @@ def main():
                 )
                 for idx in range(len(batch_prompts))
             ]
-            if coordinator and coordinator.world_size > 1:
-                dist.barrier()
+            # if coordinator and coordinator.world_size > 1:
+            #     dist.barrier()
             if all(os.path.exists(f'{_path}.mp4') for _path in save_paths):
                 continue
 
@@ -315,7 +325,7 @@ def main():
                 audio_clips.append(audio_samples)
 
             # == save samples ==
-            if is_main_process():
+            if is_main_process() or True:
                 for idx, batch_prompt in enumerate(batch_prompts):
                     if verbose >= 2:
                         logger.info("Prompt: %s", batch_prompt)

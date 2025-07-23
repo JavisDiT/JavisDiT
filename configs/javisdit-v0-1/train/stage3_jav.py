@@ -68,14 +68,14 @@ audio_vae = dict(
 )
 text_encoder = dict(
     type="t5",
-    from_pretrained="./checkpoints/t5-v1_1-xxl",
+    from_pretrained="DeepFloyd/t5-v1_1-xxl",
     model_max_length=300,
     # shardformer=True,
 )
 prior_encoder = dict(
     type="STIBPrior",
     imagebind_ckpt_path="./checkpoints",
-    from_pretrained="./checkpoints/JavisDiT-v0.1-prior",
+    from_pretrained="JavisDiT/JavisDiT-v0.1-prior",
     spatial_token_num=spatial_prior_len,
     temporal_token_num=temporal_prior_len,
     out_dim=st_prior_channel,
