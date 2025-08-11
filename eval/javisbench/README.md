@@ -93,7 +93,7 @@ Evaluates how well the generated audio and video semantically match the input te
 
   * **Text–Video**: Encode text $t$ and video $v$ into a shared embedding space and compute cosine similarity:
 
-    $\mathrm{sim}(t, v) = \frac{f_{\mathrm{text}}(t) \cdot f_{\mathrm{video}}(v)}{\|f_{\mathrm{text}}(t)\| \, \|f_{\mathrm{video}}(v)\|}$
+    $\mathrm{sim}(t, v) = \frac{f_{\mathrm{text}}(t) \cdot f_{\mathrm{video}}(v)}{\|f_{\mathrm{text}}(t)\| \cdot \|f_{\mathrm{video}}(v)\|}$
 
   * **Text–Audio**: Same process but with the audio encoder $f_{\mathrm{audio}}$.
 
@@ -135,16 +135,16 @@ Measures the semantic alignment between generated audio and generated video.
 
   Given energy peaks detected in both audio (estimated by audio onsets) and video (estimated by optical flow):
   
-  $\mathrm{P}_{\text{audio}} = \{t_{a,1}, t_{a,2}, \dots\},\quad
-  \mathrm{P}_{\text{video}} = \{t_{v,1}, t_{v,2}, \dots\}$
+  $\mathrm{P}_a = \{t_{a,1}, t_{a,2}, \dots\},\quad
+  \mathrm{P}_v = \{t_{v,1}, t_{v,2}, \dots\}$
   
   Then evaluate how often peaks align within a short temporal window (e.g., ±3 frames).
 
-  $\text{AV-Align} = \frac{1}{|\mathrm{P}_{\text{audio}}| + |\mathrm{P}_{\text{video}}|}
-  \left( \sum_{t_a \in \mathrm{P}_{\text{audio}}}
-         \mathbb{1}_{\exists\, t_v \in \mathrm{P}_{\text{video}}\,:\,|t_a - t_v| \leq \tau}
-       + \sum_{t_v \in \mathrm{P}_{\text{video}}}
-         \mathbb{1}_{\exists\, t_a \in \mathrm{P}_{\text{audio}}\,:\,|t_v - t_a| \leq \tau}
+  $\text{AV-Align} = \frac{1}{|\mathrm{P}_a| + |\mathrm{P}_v|}
+  \left( \sum_{t_a \in \mathrm{P}_a}
+         \mathbb{1}_{\exists\, t_v \in \mathrm{P}_v\,:\,|t_a - t_v| \leq \tau}
+       + \sum_{t_v \in \mathrm{P}_v}
+         \mathbb{1}_{\exists\, t_a \in \mathrm{P}_a\,:\,|t_v - t_a| \leq \tau}
   \right)$
 
   * $\tau$ is the temporal tolerance window (e.g., 3 frames).
