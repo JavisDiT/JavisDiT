@@ -72,9 +72,7 @@ Measures on the perceptual quality of the generated audio and video.
 * **Fréchet Video Distance (FVD)**
   Formula:
 
-  $$
-  \mathrm{FVD} = \|\mu_r - \mu_g\|_2^2 + \mathrm{Tr}(\Sigma_r + \Sigma_g - 2(\Sigma_r\Sigma_g)^{1/2})
-  $$
+  $\mathrm{FVD} = \|\mu_r - \mu_g\|_2^2 + \mathrm{Tr}(\Sigma_r + \Sigma_g - 2(\Sigma_r\Sigma_g)^{1/2})$
 
   where $(\mu_r, \Sigma_r)$ and $(\mu_g, \Sigma_g)$ are the mean and covariance of **real** and **generated** video features extracted by a pretrained video feature encoder (e.g., [I3D](https://arxiv.org/pdf/1705.07750)).
   **Lower is better**, indicating the generated video distribution is closer to the real one.
@@ -95,9 +93,8 @@ Evaluates how well the generated audio and video semantically match the input te
 
   * **Text–Video**: Encode text $t$ and video $v$ into a shared embedding space and compute cosine similarity:
 
-    $$
-    \mathrm{sim}(t, v) = \frac{f_{\mathrm{text}}(t) \cdot f_{\mathrm{video}}(v)}{\|f_{\mathrm{text}}(t)\| \, \|f_{\mathrm{video}}(v)\|}
-    $$
+    $\mathrm{sim}(t, v) = \frac{f_{\mathrm{text}}(t) \cdot f_{\mathrm{video}}(v)}{\|f_{\mathrm{text}}(t)\| \, \|f_{\mathrm{video}}(v)\|}$
+
   * **Text–Audio**: Same process but with the audio encoder $f_{\mathrm{audio}}$.
 
 * **[CLIP](https://github.com/openai/CLIP) Similarity** (Text–Video)
@@ -121,9 +118,7 @@ Measures the semantic alignment between generated audio and generated video.
   Introduced in [TAVGBench](https://arxiv.org/pdf/2404.14381) as a way to quantify how well the generated audio and video align semantically in a shared embedding space .
   It is defined by computing the cosine similarity between **each video frame** and the **entire audio**, then averaging across all frames:
 
-  $$
-  \text{AVHScore} = \frac{1}{N} \sum_{i=1}^{N} \cos\bigl(f_{\mathrm{frame}}(v_i),\; f_{\mathrm{audio}}(a)\bigr)
-  $$
+  $\text{AVHScore} = \frac{1}{N} \sum_{i=1}^{N} \cos\bigl(f_{\mathrm{frame}}(v_i),\; f_{\mathrm{audio}}(a)\bigr)$
 
   A higher AVHScore indicates stronger audio–video semantic consistency.
 
@@ -133,30 +128,24 @@ Measures the semantic alignment between generated audio and generated video.
 - **JavisScore**:
   A new metric we propose to measure temporal synchrony between audio and video. The core idea is using a sliding window along the temporal axis to split the audio-video pair into short segments. For each segment, compute cross-modal similarity (e.g., with [ImageBind]((https://github.com/facebookresearch/ImageBind) )) and take the mean score:
 
-  $$
-  \mathrm{JavisScore} = \frac{1}{N} \sum_{i=1}^{N} \sigma(a_i, v_i) \\
-  \sigma(v_i,a_i) = \frac{1}{k} \sum_{j=1}^{k} \mathop{\text{top-}k}\limits_{\min} \{ \cos\left(E_v(v_{i,j}), E_a(a_{i})\right) \}
-  $$
+  $\mathrm{JavisScore} = \frac{1}{N} \sum_{i=1}^{N} \sigma(a_i, v_i) , \quad \sigma(v_i,a_i) = \frac{1}{k} \sum_{j=1}^{k} \mathop{\text{top-}k}\limits_{\min} \{ \cos\left(E_v(v_{i,j}), E_a(a_{i})\right) \}$
 
 - **[AV-Align](https://arxiv.org/pdf/2309.16429)**:
   Although we did not report this metric in the paper (due to its inefficacy in evaluation complex audio-video synchrony), we also provide a reference implementation in the codebase for potential future research.
 
   Given energy peaks detected in both audio (estimated by audio onsets) and video (estimated by optical flow):
-  $$
-  \mathcal{P}_{\text{audio}} = \{t_{a,1}, t_{a,2}, \dots\},\quad
-  \mathcal{P}_{\text{video}} = \{t_{v,1}, t_{v,2}, \dots\}
-  $$
+  
+  $\mathcal{P}_{\text{audio}} = \{t_{a,1}, t_{a,2}, \dots\},\quad
+  \mathcal{P}_{\text{video}} = \{t_{v,1}, t_{v,2}, \dots\}$
   
   Then evaluate how often peaks align within a short temporal window (e.g., ±3 frames).
 
-  $$
-  \text{AV-Align} = \frac{1}{|\mathcal{P}_{\text{audio}}| + |\mathcal{P}_{\text{video}}|}
+  $\text{AV-Align} = \frac{1}{|\mathcal{P}_{\text{audio}}| + |\mathcal{P}_{\text{video}}|}
   \left( \sum_{t_a \in \mathcal{P}_{\text{audio}}}
          \mathbb{1}_{\exists\, t_v \in \mathcal{P}_{\text{video}}\,:\,|t_a - t_v| \leq \tau}
        + \sum_{t_v \in \mathcal{P}_{\text{video}}}
          \mathbb{1}_{\exists\, t_a \in \mathcal{P}_{\text{audio}}\,:\,|t_v - t_a| \leq \tau}
-  \right)
-  $$
+  \right)$
 
   * $\tau$ is the temporal tolerance window (e.g., 3 frames).
   * $\mathbb{1}_{\cdot}$ is the indicator function—1 if a match exists within the window, otherwise 0.
@@ -176,11 +165,19 @@ samples/JavisBench/sample_0001.wav
 ...
 ```
 
-From the root directory of the **JavisDiT** project, run:
+From the root directory of the **JavisDiT** project,
+download the meta file and data of [JavisBench](https://huggingface.co/datasets/JavisDiT/JavisBench), and put them into `data/eval/`:
 
 ```bash
 cd /path/to/JavisDiT
+mkdir -p data/eval
 
+huggingface-cli download --repo-type dataset JavisDiT/JavisBench --local-dir data/eval/JavisBench
+```
+
+Then, run evaluation:
+
+```bash
 MAX_FRAMES=16
 IMAGE_SIZE=224
 MAX_AUDIO_LEN_S=4.0
