@@ -135,16 +135,16 @@ Measures the semantic alignment between generated audio and generated video.
 
   Given energy peaks detected in both audio (estimated by audio onsets) and video (estimated by optical flow):
   
-  $\mathcal{P}_{\text{audio}} = \{t_{a,1}, t_{a,2}, \dots\},\quad
-  \mathcal{P}_{\text{video}} = \{t_{v,1}, t_{v,2}, \dots\}$
+  $\mathrm{P}_{\text{audio}} = \{t_{a,1}, t_{a,2}, \dots\},\quad
+  \mathrm{P}_{\text{video}} = \{t_{v,1}, t_{v,2}, \dots\}$
   
   Then evaluate how often peaks align within a short temporal window (e.g., ±3 frames).
 
-  $\text{AV-Align} = \frac{1}{|\mathcal{P}_{\text{audio}}| + |\mathcal{P}_{\text{video}}|}
-  \left( \sum_{t_a \in \mathcal{P}_{\text{audio}}}
-         \mathbb{1}_{\exists\, t_v \in \mathcal{P}_{\text{video}}\,:\,|t_a - t_v| \leq \tau}
-       + \sum_{t_v \in \mathcal{P}_{\text{video}}}
-         \mathbb{1}_{\exists\, t_a \in \mathcal{P}_{\text{audio}}\,:\,|t_v - t_a| \leq \tau}
+  $\text{AV-Align} = \frac{1}{|\mathrm{P}_{\text{audio}}| + |\mathrm{P}_{\text{video}}|}
+  \left( \sum_{t_a \in \mathrm{P}_{\text{audio}}}
+         \mathbb{1}_{\exists\, t_v \in \mathrm{P}_{\text{video}}\,:\,|t_a - t_v| \leq \tau}
+       + \sum_{t_v \in \mathrm{P}_{\text{video}}}
+         \mathbb{1}_{\exists\, t_a \in \mathrm{P}_{\text{audio}}\,:\,|t_v - t_a| \leq \tau}
   \right)$
 
   * $\tau$ is the temporal tolerance window (e.g., 3 frames).
