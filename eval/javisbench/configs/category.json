@@ -1,0 +1,414 @@
+[
+    {
+        "aspect": "Event Scenario",
+        "instruction": "Identify the primary scenario of the video based on its environment. Choose only one of the following categories",
+        "categories": [
+            {
+                "title": "Natural Scenario",
+                "description": "Scenes dominated by natural environments with minimal human interference, such as forests, oceans, and mountains.",
+                "subcategories": [
+                    {
+                        "title": "Forest and Woodland",
+                        "description": "Dense areas dominated by trees and vegetation, including tropical rainforests, temperate forests, and boreal forests. This also includes smaller woodlands and groves, where trees are the primary feature."
+                    },
+                    {
+                        "title": "Mountain and High Altitude Landscapes",
+                        "description": "Elevated regions, including mountains, rocky terrains, alpine areas, and high plateaus, which may include snow-capped peaks, ridges, and highland ecosystems."
+                    },
+                    {
+                        "title": "Coastal and Water-Based Landscapes",
+                        "description": "This category combines beaches, rocky shores, cliffs, and wetlands (marshes, swamps, bogs) found along coastlines or rivers. It also includes riverbanks, tidal flats, and coastal wetland ecosystems."
+                    },
+                    {
+                        "title": "Desert and Arid Landscapes",
+                        "description": "Dry, barren regions with minimal vegetation, including deserts with sand dunes, rocky deserts, and other arid ecosystems, where water scarcity and extreme temperatures dominate."
+                    },
+                    {
+                        "title": "Grassland and Savanna",
+                        "description": "Open, flat landscapes primarily covered by grasses, with scattered shrubs or small trees. This category includes temperate grasslands (prairies) and tropical savannas."
+                    },
+                    {
+                        "title": "Waterfalls and River Systems",
+                        "description": "This combines cascading waterfalls and large river ecosystems, covering both flowing water features like waterfalls and the larger river systems that may shape entire landscapes."
+                    },
+                    {
+                        "title": "Caves and Underground Landscapes",
+                        "description": "Subterranean environments, including natural caves, tunnels, and underground formations featuring stalactites, stalagmites, and other geological structures."
+                    },
+                    {
+                        "title": "Marine and Underwater Ecosystems",
+                        "description": "Aquatic environments, including coral reefs, deep-sea ecosystems, and the underwater landscapes of oceans, seas, and large freshwater bodies."
+                    },
+                    {
+                        "title": "Volcanic and Geothermal Landscapes",
+                        "description": "Regions shaped by volcanic activity, including lava fields, craters, geothermal features like hot springs, fumaroles, and geysers."
+                    }
+                ]
+            },
+            {
+                "title": "Urban Scenario",
+                "description": "Outdoor spaces shaped by human activity, including cities, villages, streets, and parks.",
+                "subcategories": []
+            },
+            {
+                "title": "Living Scenario",
+                "description": "Indoor environments where daily human activities occur, like houses, schools, and shopping malls.",
+                "subcategories": [
+                    {
+                        "title": "Residential and Living Spaces",
+                        "description": "This category includes areas where people reside, such as neighborhoods, houses, apartments, condos, and other types of housing. It also encompasses communal living spaces like dormitories and senior living complexes."
+                    },
+                    {
+                        "title": "Educational and Learning Spaces",
+                        "description": "A combined category that covers schools, colleges, universities, and other educational institutions where learning and academic activities occur. It also includes libraries as places of study, research, and reading."
+                    },
+                    {
+                        "title": "Healthcare and Medical Facilities",
+                        "description": "This combines hospitals, clinics, and other healthcare-related facilities where medical professionals provide care to patients. It includes emergency rooms, doctor's offices, and wellness centers."
+                    },
+                    {
+                        "title": "Work and Professional Spaces",
+                        "description": "A broad category that includes office spaces, co-working spaces, and other professional environments where people perform tasks related to their careers. This also includes meeting rooms, business hubs, and workstations."
+                    },
+                    {
+                        "title": "Commercial and Retail Spaces",
+                        "description": "This category encompasses places where goods and services are exchanged, such as marketplaces, shopping centers, malls, and retail stores. It also includes restaurants, cafés, and other dining establishments where food is prepared and served."
+                    },
+                    {
+                        "title": "Transportation Hubs and Stations",
+                        "description": "A combined category for transport-related areas such as train stations, bus terminals, and airports. It covers the infrastructure used for travel, whether by train, plane, or other forms of transportation."
+                    },
+                    {
+                        "title": "Recreational and Public Spaces",
+                        "description": "This category includes parks, recreational centers, sports facilities, and other public areas designed for leisure, outdoor activities, and community gatherings."
+                    }
+                ]
+            },
+            {
+                "title": "Industrial Scenario",
+                "description": "Work-oriented spaces related to industrial or energy activities, such as factories, construction sites, and mines.",
+                "subcategories": [
+                    {
+                        "title": "Manufacturing and Production Facilities",
+                        "description": "This broad category combines factories, chemical plants, steel mills, and oil refineries, all of which involve the production or processing of materials and goods. It includes facilities for assembly, processing, and large-scale manufacturing using various industrial processes."
+                    },
+                    {
+                        "title": "Energy and Power Generation",
+                        "description": "This category includes power plants (fossil fuel, nuclear, and renewable) where energy is produced, as well as facilities related to energy generation and management."
+                    },
+                    {
+                        "title": "Transportation and Logistics Hubs",
+                        "description": "A combined category that includes ports, logistics centers, and warehouses where goods are managed, stored, and distributed. It covers the transportation infrastructure and storage systems crucial for global trade and supply chains."
+                    },
+                    {
+                        "title": "Construction and Infrastructure Sites",
+                        "description": "This category encompasses construction sites, roadwork, and infrastructure projects where buildings, bridges, or other large-scale structures are being built or renovated. It includes heavy machinery, construction materials, and labor involved in creating or renovating infrastructure."
+                    },
+                    {
+                        "title": "Resource Extraction and Mining",
+                        "description": "Includes mining sites and other resource extraction locations where raw materials, such as minerals, metals, or fossil fuels, are dug or extracted from the earth. It involves large excavation machinery and extraction processes."
+                    },
+                    {
+                        "title": "Shipbuilding and Marine Industry",
+                        "description": "Focused on shipyards and the industrial processes involved in building, maintaining, or repairing ships, including dry docks, heavy equipment, and marine construction."
+                    }
+                ]
+            },
+            {
+                "title": "Virtual Scenario",
+                "description": "Imaginative or abstract settings, including virtual worlds, sci-fi cities, and artistic installations.",
+                "subcategories": [
+                    {
+                        "title": "Futuristic and Sci-Fi Cities",
+                        "description": "Urban environments inspired by advanced technology, science fiction, and innovation. This includes towering skyscrapers, smart infrastructure, and futuristic designs often set in a highly advanced society."
+                    },
+                    {
+                        "title": "Fantasy and Magical Realms",
+                        "description": "A combined category for magical landscapes, fantasy worlds, and enchanted environments. This includes settings with mythical creatures, magic, and otherworldly features, such as magical forests, realms, and enchanted spaces."
+                    },
+                    {
+                        "title": "Outer Space and Alien Worlds",
+                        "description": "This merges outer space environments (planets, stars, nebulae) with alien worlds, focusing on cosmic landscapes, unearthly terrains, and extraterrestrial ecosystems. It encompasses space exploration and alien landscapes with strange life forms."
+                    },
+                    {
+                        "title": "Virtual and Digital Worlds",
+                        "description": "This broad category includes game worlds, cyberspace, and virtual reality landscapes. It covers immersive digital environments for interactive gameplay, virtual simulations, data-driven spaces, and abstract digital landscapes."
+                    },
+                    {
+                        "title": "Post-Apocalyptic and Dystopian Worlds",
+                        "description": "Scenes depicting ruined or destroyed environments after catastrophic events, including dystopian societies, survival settings, and post-apocalyptic landscapes featuring ruins, remnants of civilization, and harsh living conditions."
+                    }
+                ]
+            }
+        ],
+        "formatter": "<selected category index and category name, e.g., a. Natural Scenario>"
+    },
+    {
+        "aspect": "Visual Style",
+        "instruction": "Classify the video based on its visual representation. Choose only one of the following categories:",
+        "categories": [
+            {
+                "title": "Camera Shooting",
+                "description": "Filmed with handheld, fixed, or drone cameras, including slow-motion footage.",
+                "subcategories": [
+                    {
+                        "title": "Handheld Shooting",
+                        "description": "A dynamic technique where the camera is held directly by the operator, often producing a natural, slightly shaky look for realism or urgency."
+                    },
+                    {
+                        "title": "Fixed Shooting",
+                        "description": "The camera remains stationary on a tripod or other support, focusing on a fixed point or capturing controlled movements like panning or tilting."
+                    },
+                    {
+                        "title": "Aerial Shooting",
+                        "description": "Shots captured from above, often using drones, helicopters, or cranes, providing wide and elevated perspectives."
+                    },
+                    {
+                        "title": "Slow Motion Shooting",
+                        "description": "A technique that captures footage at high frame rates, allowing playback at slower speeds for dramatic or detailed effects."
+                    },
+                    {
+                        "title": "Zoom Shooting",
+                        "description": "Adjusting the focal length during a shot to magnify or reduce the subject’s size, creating a sense of closeness or distance."
+                    },
+                    {
+                        "title": "Time-Lapse Shooting",
+                        "description": "Captures a sequence of frames over a long period, compressed into fast playback to show changes in time, like sunsets or cityscapes."
+                    },
+                    {
+                        "title": "Point-of-View (POV) Shooting",
+                        "description": "The camera represents the perspective of a character or subject, immersing the audience in the action."
+                    },
+                    {
+                        "title": "Panoramic or 360-Degree Shooting",
+                        "description": "A technique that captures wide or full-circle views, often using specialized cameras for immersive perspectives."
+                    }
+                ]
+            },
+            {
+                "title": "2D-Animate",
+                "description": "Styles like hand-drawn animation, flat animation, cartoon styles, or watercolor illustrations.",
+                "subcategories": [
+                    {
+                        "title": "Ink Style",
+                        "description": "A style inspired by traditional ink art, often using monochromatic or limited color palettes with bold, flowing lines."
+                    },
+                    {
+                        "title": "Freehand Painting",
+                        "description": "A fluid, organic style mimicking hand-drawn brushstrokes, often with visible textures and imperfections."
+                    },
+                    {
+                        "title": "Anime",
+                        "description": "A Japanese animation style characterized by vibrant colors, exaggerated expressions, and dynamic action sequences."
+                    },
+                    {
+                        "title": "Pixel Style",
+                        "description": "A retro-inspired style using pixel art, with blocky, low-resolution visuals that evoke early video games."
+                    },
+                    {
+                        "title": "Watercolor Style",
+                        "description": "A soft and organic look that mimics the translucent and fluid qualities of watercolor painting."
+                    },
+                    {
+                        "title": "Comic Book Style",
+                        "description": "A dynamic style using bold outlines, halftone patterns, and speech bubbles, resembling traditional comic books."
+                    },
+                    {
+                        "title": "Sketch Style",
+                        "description": " A raw and unfinished look with visible pencil or pen lines, mimicking rough drafts or concept art."
+                    },
+                    {
+                        "title": "sketch style",
+                        "description": "A raw and unfinished look with visible pencil or pen lines, mimicking rough drafts or concept art."
+                    },
+                    {
+                        "title": "Cut-Out Animation",
+                        "description": "A style using flat, movable pieces of art, often resembling paper cut-outs, for a handcrafted feel."
+                    }
+                ]
+            },
+            {
+                "title": "3D-Animate",
+                "description": "Photorealistic styles, sci-fi/magical effects, CG (Computer Graphics), or steampunk aesthetics.",
+                "subcategories": [
+                    {
+                        "title": "Sci-Fi 3D",
+                        "description": "A style focused on futuristic technology, space exploration, and alien worlds. It often features high-tech environments, advanced machinery, and space landscapes with sleek designs, glowing effects, and imaginative structures."
+                    },
+                    {
+                        "title": "Fantasy 3D",
+                        "description": "A style that creates magical or supernatural worlds, incorporating mythical creatures, enchanted landscapes, and fantastical elements. This style often includes dynamic visual effects, elaborate environments, and magical phenomena."
+                    },
+                    {
+                        "title": "Realistic 3D",
+                        "description": "A style that strives to closely mimic the real world with high attention to detail. It features lifelike characters, environments, and natural textures, often used in films, commercials, or architectural visualizations to create photorealistic results."
+                    },
+                    {
+                        "title": "3D Modeling Simulation",
+                        "description": "A style focused on the simulation of real-world objects, structures, or systems using 3D modeling techniques. This includes architectural visualizations, product design prototypes, and scientific simulations where the primary goal is to replicate real-world objects or environments in 3D form."
+                    },
+                    {
+                        "title": "Cartoonish 3D",
+                        "description": "A stylized 3D animation that blends exaggerated, cartoon-like features with three-dimensional visuals. This style emphasizes playful, bold designs, often used in animated films or games with a lighthearted tone."
+                    },
+                    {
+                        "title": "Stylized 3D",
+                        "description": "A combination of realism and artistic flair, where 3D elements are exaggerated or abstracted for a unique visual experience. This style is commonly used in animated films and video games, blending realistic settings with artistic interpretations."
+                    }
+                ]
+            }
+        ],
+        "formatter": "<selected category index and category name, e.g., b. 2D Animation>"
+    },
+    {
+        "aspect": "Sound Type",
+        "instruction": "Identify the sound types present in the audio. Multiple options can be selected based on the content if existing.",
+        "categories": [
+            {
+                "title": "Ambient sounds",
+                "description": "Sounds that occur naturally in the environment, including both natural and human-influenced surroundings. This category includes sounds like wind, rain, water flow, animal sounds, human activity (e.g., traffic, construction), and urban noise.",
+                "subcategories": [
+                    {
+                        "title": "Natural Sounds",
+                        "description": "Sounds from nature, including water-related sounds (e.g., waterfalls, rain, rivers, crashing waves) and atmospheric sounds (e.g., wind, thunder, rustling leaves, and other natural phenomena). Also includes sounds from **nighttime ambiance** (e.g., crickets, owls) and **coastal or waterfront** environments (e.g., seagulls, waves)."
+                    },
+                    {
+                        "title": "Animal Sounds",
+                        "description": "Sounds produced by animals, such as birds chirping, dogs barking, insects buzzing, wolves howling, or other wildlife noises."
+                    },
+                    {
+                        "title": "Urban & Traffic Sounds",
+                        "description": "Sounds of cities and towns, including car horns, footsteps, train engines, crowd chatter, construction noise, and general urban activity."
+                    },
+                    {
+                        "title": "Industrial & Mechanical Sounds",
+                        "description": "Man-made, mechanical, or electronic sounds, such as factory noises, machinery hums, clanging metal, engine sounds, and industrial machinery."
+                    },
+                    {
+                        "title": "White Noise",
+                        "description": "A category for sounds that create a consistent auditory background, including low-frequency hums, static, air conditioning sounds, and other continuous, non-distracting noises."
+                    }
+                ]
+            },
+            {
+                "title": "Biological sounds",
+                "description": "Sounds produced by living creatures (e.g. animals, birds). This includes vocalizations such as barking, chirping, growling, as well as non-vocal human sounds like heartbeat, and other physical noises.",
+                "subcategories": []
+            },
+            {
+                "title": "Mechanical sounds",
+                "description": "Sounds generated by man-made machines, devices, or mechanical processes. This includes the noise of engines, motors, appliances, and any mechanical or electronic noise. This category also includes malfunction sounds (e.g., malfunctioning machinery or alarms).",
+                "subcategories": []
+            },
+            {
+                "title": "Musical sounds",
+                "description": "Sounds related to music or musical performance, including both human-generated and instrument-generated sounds and melodies. This category covers singing, instrumental performances, as well as background music used in various media formats.",
+                "subcategories": [
+                    {
+                        "title": "Instrumental Performance",
+                        "description": "Music created using instruments without vocal accompaniment, including solo recitals, chamber music, and orchestral performances."
+                    },
+                    {
+                        "title": "Vocal Performance",
+                        "description": "Singing-focused performances, from solo acts to group arrangements, encompassing genres such as opera, a cappella, and choral singing."
+                    },
+                    {
+                        "title": "Band Performance",
+                        "description": "Music performed by a group of musicians, typically involving vocals, guitars, drums, and other instruments, covering genres like rock, jazz, and pop."
+                    },
+                    {
+                        "title": "Orchestral & Choral Performance",
+                        "description": "Large-scale performances by orchestras or choirs, often in formal settings, combining instrumental and vocal elements."
+                    },
+                    {
+                        "title": "Musical Theatre & Opera",
+                        "description": "Performances combining music, singing, and theatrical storytelling, including operas and stage musicals."
+                    },
+                    {
+                        "title": "Electronic Music Performance",
+                        "description": "Music created and performed using electronic instruments, synthesizers, and digital equipment, often including DJ sets or live electronic acts."
+                    }
+                ]
+            },
+            {
+                "title": "Speech sounds",
+                "description": "Sounds generated from human speech, whether in conversation, dialogue, public speeches, debates, interviews, or monologues. This category specifically covers linguistic communication in various contexts, whether formal, informal, or contentious.",
+                "subcategories": [
+                    {
+                        "title": "Dialogue & Conversations",
+                        "description": "Speech between two or more people, including casual exchanges and interviews where individuals interact through questions, answers, and discussions."
+                    },
+                    {
+                        "title": "Public Speaking & Presentations",
+                        "description": "Formal or informal monologues, including speeches, talks, and lectures given to an audience for educational, motivational, or ceremonial purposes."
+                    },
+                    {
+                        "title": "Debates & Discussions",
+                        "description": "Structured exchanges of ideas or opinions, typically involving multiple participants arguing, presenting, or defending views in a formal or informal setting."
+                    },
+                    {
+                        "title": "Vocal Expressions of Emotion",
+                        "description": "Emotional sounds such as **laughing**, **crying**, **sobbing**, **shouting**, or **yelling**, conveying feelings like joy, distress, anger, or excitement."
+                    },
+                    {
+                        "title": "Whispering",
+                        "description": "Soft, low-volume speech used for privacy or secrecy, often intimate or quiet in tone."
+                    },
+                    {
+                        "title": "Cheers & Applause",
+                        "description": "Vocal expressions of approval or excitement, including clapping, chanting, cheering, or other sounds of positive group reactions."
+                    },
+                    {
+                        "title": "Narration & Voice-Over",
+                        "description": "Spoken commentary or storytelling that accompanies visual media, such as films, documentaries, or animations, providing context or insight."
+                    }
+                ]
+            }
+        ],
+        "formatter": "<List of sound types with category indices, e.g., a. Environmental sounds, d. Musical sounds>"
+    },
+    {
+        "aspect": "Temporal Composition",
+        "instruction": "Based on the temporal attribution of the audio, select one of the following categories.",
+        "categories": [
+            {
+                "title": "Single event",
+                "description": "The audio contains only one event, with no overlapping sounds. For example, \"a single dog barking without background noise.\"",
+                "subcategories": []
+            },
+            {
+                "title": "Sequential events",
+                "description": "There are multiple events occurring sequentially, with no overlap. For example, \"the applause begins after the music performance ends.\"",
+                "subcategories": []
+            },
+            {
+                "title": "Simultaneous events",
+                "description": "Multiple audio sources are present simultaneously, such as \"a person speaking while music plays in the background.\"",
+                "subcategories": []
+            }
+        ],
+        "formatter": "<One of the sound composition with category index, e.g., b. Sequential events>"   
+    },
+    {
+        "aspect": "Spatial Composition",
+        "instruction": "Based on the sound sources in the audio as well as the visual subjects in the video caption, select one of the following categories:",
+        "categories": [
+            {
+                "title": "Single subject",
+                "description": "There is only one primary object or source producing sound in the scene.",
+                "subcategories": []
+            },
+            {
+                "title": "Multiple subjects",
+                "description": "There are multiple primary objects that (or potentially can) make sounds in the scene.",
+                "subcategories": []
+            },
+            {
+                "title": "Off-screen sound",
+                "description": "The source of the sound is not visible in the scene but logically exists (e.g., a car engine outside the camera view).",
+                "subcategories": []
+            }
+        ],
+        "formatter": "<List of the sounding subjects with category indices, e.g., b. Multiple subjects, c. Off-screen sound>"
+    }
+]

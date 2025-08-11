@@ -22,12 +22,13 @@ https://github.com/user-attachments/assets/de5f0bcc-fb5d-4410-a795-2dd3ae3ac788
 
 ## 📰 News
 
+- **[2025.08.11]** 🔥 We released the data and code for JAVG evaluation. For more details refer to [here](#evaluation) and [eval/javisbench/README.md](eval/javisbench/README.md).
 - **[2025.04.15]** 🔥 We released the data preparation and model training instructions. You can train JavisDiT with your own dataset!
 - **[2025.04.07]** 🔥 We released the inference code and a preview model of **JavisDiT-v0.1** at [HuggingFace](https://huggingface.co/JavisDiT), which includes **JavisDiT-v0.1-audio**, **JavisDiT-v0.1-prior**, and **JavisDiT-v0.1-jav** (with a [low-resolution version](https://huggingface.co/JavisDiT/JavisDiT-v0.1-jav-240p4s) and a [full-resolution version](https://huggingface.co/JavisDiT/JavisDiT-v0.1-jav)).
 - **[2025.04.03]** We release the repository of [JavisDiT](https://arxiv.org/pdf/2503.23377). Code, model, and data are coming soon.
 
 ### 👉 TODO 
-- [ ] Release the data and evaluation code for JavisBench & JavisScore.
+- [ ] Release the data and evaluation code for JavisScore.
 - [ ] Deriving a more efficient and powerful JAVG model.
 
 ## Brief Introduction
@@ -66,13 +67,18 @@ cd JavisDiT
 # install torch, torchvision and xformers
 pip install -r requirements/requirements-cu121.txt
 
+# install ffpmeg
+conda install -c conda-forge ffmpeg -y
+
 # the default installation is for inference only
 pip install -v .
 # for development mode, `pip install -v -e .`
 # to skip dependencies, `pip install -v -e . --no-deps`
 
 # replace
-cp assets/src/pytorchvideo_augmentations.py /path/to/python3.10/site-packages/pytorchvideo/transforms/augmentations.py
+PYTHON_SITE_PACKAGES=$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+cp assets/src/pytorchvideo_augmentations.py ${PYTHON_SITE_PACKAGES}/pytorchvideo/transforms/augmentations.py
+cp assets/src/funasr_utils_load_utils.py ${PYTHON_SITE_PACKAGES}/funasr/utils/load_utils.py
 ```
 
 (Optional, recommended for fast speed, especially for training) To enable `layernorm_kernel` and `flash_attn`, you need to install `apex` and `flash-attn` with the following commands.
@@ -241,7 +247,83 @@ mv runs/0aa-VASTDiT3-XL-2/epoch0bb-global_stepccc checkpoints/JavisDiT-v0.1-jav
 
 ## Evaluation
 
-- [ ] Coming soon.
+## Installation
+
+Install necessary packages:
+
+```bash
+pip install -r requirements/requirements-eval.txt
+```
+
+### Data Preparation
+
+Download the meta file and data of [JavisBench](https://huggingface.co/datasets/JavisDiT/JavisBench), and put them into `data/eval/`:
+
+```bash
+mkdir -p data/eval
+huggingface-cli download --repo-type dataset JavisDiT/JavisBench --local-dir data/eval/JavisBench
+```
+
+### Inference on JavisBench/JavisBench-mini
+
+Run the joint audio-video generation (JAVG) inference to generate sounding videos in 240P for 4 seconds:
+
+```bash
+DATASET="JavisBench"  # or JavisBench-mini
+prompt_path="data/eval/JavisBench/${DATASET}.csv"
+
+cfg_file="configs/javisdit-v0-1/inference/sample_240p4s.py"
+save_dir="samples/${DATASET}"
+
+resolution=240p
+num_frames=4s
+aspect_ratio="9:16"
+
+rm -rf ${save_dir}
+python scripts/inference.py ${cfg_file} \
+    --resolution ${resolution} --num-frames ${num_frames} --aspect-ratio ${aspect_ratio} \
+    --prompt-path ${prompt_path} --save-dir ${save_dir} --verbose 1
+
+# (Optional) Extract audios from generated videos
+python -m tools.datasets.convert video ${save_dir} --output ${save_dir}/meta.csv
+python -m tools.datasets.datautil ${save_dir}/meta.csv --extract-audio --audio-sr 16000
+rm -f ${save_dir}/meta*.csv
+```
+
+
+### Evaluation on JavisBench/JavisBench-mini
+
+Run the following code and the results will be saved in `./evaluation_results`.
+
+```bash
+MAX_FRAMES=16
+IMAGE_SIZE=224
+MAX_AUDIO_LEN_S=4.0
+
+# Params to calculate JavisScore
+WINDOW_SIZE_S=2.0
+WINDOW_OVERLAP_S=1.5
+
+METRICS="all" 
+RESULTS_DIR="./evaluation_results"
+
+DATASET="JavisBench"  # or JavisBench-mini
+INPUT_FILE="data/eval/JavisBench/${DATASET}.csv"
+FVD_AVCACHE_PATH="data/eval/JavisBench/cache/fvd_fad/${DATASET}-vanilla-max4s.pt"
+INFER_DATA_DIR="samples/${DATASET}"
+
+python -m eval.javisbench.main \
+  --input_file "${INPUT_FILE}" \
+  --infer_data_dir "${INFER_DATA_DIR}" \
+  --output_file "${RESULTS_DIR}/${DATASET}.json" \
+  --max_frames ${MAX_FRAMES} \
+  --image_size ${IMAGE_SIZE} \
+  --max_audio_len_s ${MAX_AUDIO_LEN_S} \
+  --window_size_s ${WINDOW_SIZE_S} \
+  --window_overlap_s ${WINDOW_OVERLAP_S} \
+  --fvd_avcache_path ${FVD_AVCACHE_PATH}$ \
+  --metrics ${METRICS}
+```
 
 
 ## Acknowledgement
@@ -263,7 +345,7 @@ Below we show our appreciation for the exceptional work and generous contributio
 
 If you find JavisDiT is useful and use it in your project, please kindly cite:
 
-```
+```bibtex
 @inproceedings{liu2025javisdit,
       title={JavisDiT: Joint Audio-Video Diffusion Transformer with Hierarchical Spatio-Temporal Prior Synchronization}, 
       author={Kai Liu and Wei Li and Lai Chen and Shengqiong Wu and Yanhao Zheng and Jiayi Ji and Fan Zhou and Rongxin Jiang and Jiebo Luo and Hao Fei and Tat-Seng Chua},

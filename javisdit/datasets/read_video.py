@@ -225,7 +225,10 @@ def read_video_cv2(video_path, num_frames=None, frame_interval=1):
         }
 
         if num_frames is not None:
-            total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+            # total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))  unsafe
+            cap.set(cv2.CAP_PROP_POS_AVI_RATIO, 1)
+            total_frames = int(cap.get(cv2.CAP_PROP_POS_FRAMES))
+            cap.set(cv2.CAP_PROP_POS_AVI_RATIO, 0)
             assert total_frames > 0, f'video {video_path} has no frames'
             start_frame_ind, end_frame_ind = generate_temporal_window(total_frames, num_frames, frame_interval)
             cap.set(cv2.CAP_PROP_POS_FRAMES, start_frame_ind)

@@ -1,0 +1,9 @@
+
+model:
+  target: eval.javisbench.src.cavp.cavp_model.CAVP_Inference
+  params:
+    video_encode: Slowonly_pool
+    spec_encode: cnn14_pool
+    embed_dim: 512
+    video_pretrained: True
+    audio_pretrained: True
