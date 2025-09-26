@@ -321,7 +321,7 @@ python -m eval.javisbench.main \
   --max_audio_len_s ${MAX_AUDIO_LEN_S} \
   --window_size_s ${WINDOW_SIZE_S} \
   --window_overlap_s ${WINDOW_OVERLAP_S} \
-  --fvd_avcache_path ${FVD_AVCACHE_PATH}$ \
+  --fvd_avcache_path ${FVD_AVCACHE_PATH} \
   --metrics ${METRICS}
 ```
 

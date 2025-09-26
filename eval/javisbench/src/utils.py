@@ -295,6 +295,14 @@ class Extract_CAVP_Features(torch.nn.Module):
 
         # Loading Model from:
         assert ckpt_path is not None
+        if not osp.exists(ckpt_path):
+            print(f"Downloading CAVP weights to {ckpt_path} ...")
+            os.makedirs(os.path.dirname(ckpt_path), exist_ok=True)
+            torch.hub.download_url_to_file(
+                "https://huggingface.co/SimianLuo/Diff-Foley/resolve/main/diff_foley_ckpt/cavp_epoch66.ckpt",
+                ckpt_path,
+                progress=True,
+            )
         print("Loading Stage1 CAVP Model from: {}".format(ckpt_path))
         self.init_first_from_ckpt(ckpt_path)
         self.stage1_model.eval()

@@ -4,17 +4,7 @@ As released in [HuggingFace](https://huggingface.co/datasets/JavisDiT/JavisBench
 JavisBench is a comprehensive and challenging benchmark for evaluating **text-to-audio-video generation** models.  
 It covers multiple aspects of generation quality, semantic alignment, and temporal synchrony, enabling thorough assessment in both controlled and real-world scenarios.
 
-### Installation
-
-Install necessary packages:
-
-```bash
-cd /path/to/JavisDiT
-
-pip install -r requirements/requirements-eval.txt
-```
-
-### Data Composition
+### 1. Data Composition
 
 JavisBench integrates test data from two sources:
 
@@ -59,13 +49,13 @@ To support faster evaluation, we also provide a smaller-scale **JavisBench-mini*
 :warning: **NOTE**: YouTube raw audio-video data is not released due to copyright restrictions. Instead, we provide pre-extracted audio-video features for FVD/KVD/FAD evaluation (will be introduced below). For other metrics, raw audio-video data is not required — only input textual captions and generated audio-video pairs from your model are needed.
 
 
-### Evaluation Metrics
+### 2. Evaluation Metrics
 
-We evaluate JAVG models from **4** complementary perspectives:
+We evaluate JAVG models from **4** complementary perspectives: (1) Audio/Video Quality, (2) Text to Audio/Video Consistency, (3) Audio-Video Consistency, and (4) Audio-Video Synchrony.
 
 
-
-#### 1. Audio / Video Quality
+<details> 
+<summary> Clik to expand: (1) Audio/Video Quality </summary>
 
 Measures on the perceptual quality of the generated audio and video.
 
@@ -84,8 +74,12 @@ Measures on the perceptual quality of the generated audio and video.
   Same concept as FVD, but computed on **audio** features extracted by a pretrained audio model (e.g., [AudioClip](https://arxiv.org/pdf/2106.13043)).
   Measures distribution distance between generated and real audio; **lower is better**.
 
+</details> 
 
-#### 2. Semantic Consistency Against Conditional Texts
+
+<details> 
+<summary> Clik to expand: (2) Text to Audio/Video Consistency </summary>
+
 
 Evaluates how well the generated audio and video semantically match the input text description.
 
@@ -103,8 +97,10 @@ Evaluates how well the generated audio and video semantically match the input te
 * **[CLAP](https://github.com/LAION-AI/CLAP) Similarity** (Text–Audio)
   Uses CLAP to compute semantic similarity between text and audio.
 
+</details> 
 
-#### 3. Audio–Video Semantic Consistency
+<details> 
+<summary> Clik to expand: (3) Audio-Video Consistency </summary>
 
 Measures the semantic alignment between generated audio and generated video.
 
@@ -122,8 +118,11 @@ Measures the semantic alignment between generated audio and generated video.
 
   A higher AVHScore indicates stronger audio–video semantic consistency.
 
+</details> 
 
-#### 4. Audio–Video Spatio-Temporal Synchrony
+
+<details> 
+<summary> Clik to expand: (4) Audio-Video Synchrony </summary>
 
 - **JavisScore**:
   A new metric we propose to measure temporal synchrony between audio and video. The core idea is using a sliding window along the temporal axis to split the audio-video pair into short segments. For each segment, compute cross-modal similarity (e.g., with [ImageBind]((https://github.com/facebookresearch/ImageBind) )) and take the mean score:
@@ -151,9 +150,18 @@ Measures the semantic alignment between generated audio and generated video.
   * $\mathbb{1}_{\cdot}$ is the indicator function—1 if a match exists within the window, otherwise 0.
   * Higher scores indicate better alignment in both directions.
 
+</details> 
 
 
-## 3. Evaluation
+### 3. Evaluation
+
+Install the evaluation dependencies:
+
+```bash
+cd /path/to/JavisDiT
+
+pip install -r requirements/requirements-eval.txt
+```
 
 Assume your generated results are saved under:
 
@@ -203,7 +211,7 @@ python -m eval.javisbench.main \
   --max_audio_len_s ${MAX_AUDIO_LEN_S} \
   --window_size_s ${WINDOW_SIZE_S} \
   --window_overlap_s ${WINDOW_OVERLAP_S} \
-  --fvd_avcache_path ${FVD_AVCACHE_PATH}$ \
+  --fvd_avcache_path ${FVD_AVCACHE_PATH} \
   --metrics ${METRICS}
 ```
 
