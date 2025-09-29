@@ -247,7 +247,7 @@ mv runs/0aa-VASTDiT3-XL-2/epoch0bb-global_stepccc checkpoints/JavisDiT-v0.1-jav
 
 ## Evaluation
 
-## Installation
+### Installation
 
 Install necessary packages:
 
@@ -284,7 +284,7 @@ python scripts/inference.py ${cfg_file} \
     --resolution ${resolution} --num-frames ${num_frames} --aspect-ratio ${aspect_ratio} \
     --prompt-path ${prompt_path} --save-dir ${save_dir} --verbose 1
 
-# (Optional) Extract audios from generated videos
+# (Optional, for evaluation) Extract audios from generated videos
 python -m tools.datasets.convert video ${save_dir} --output ${save_dir}/meta.csv
 python -m tools.datasets.datautil ${save_dir}/meta.csv --extract-audio --audio-sr 16000
 rm -f ${save_dir}/meta*.csv
@@ -324,7 +324,6 @@ python -m eval.javisbench.main \
   --fvd_avcache_path ${FVD_AVCACHE_PATH} \
   --metrics ${METRICS}
 ```
-
 
 ## Acknowledgement
 
