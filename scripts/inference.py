@@ -128,7 +128,7 @@ def main():
     # == load prompts ==
     prompts = cfg.get("prompt", None)
     start_idx = cfg.get("start_index", 0)
-    if prompt is None:
+    if prompts is None:
         if cfg.get("prompt_path", None) is not None:
             prompts = load_prompts(cfg.prompt_path, start_idx, cfg.get("end_index", None))
         else:
